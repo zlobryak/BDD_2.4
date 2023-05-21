@@ -1,6 +1,5 @@
 package ru.netology.web.test;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.LoginPageV1;
@@ -9,6 +8,7 @@ import ru.netology.web.page.LoginPageV3;
 import ru.netology.web.page.PersonalAccountPage;
 
 import static com.codeborne.selenide.Selenide.open;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MoneyTransferTest {
     @Test
@@ -44,7 +44,7 @@ class MoneyTransferTest {
 
     @Test
     void GetBalanceTest() {
-        Configuration.holdBrowserOpen = true;
+//        Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
         var loginPage = new LoginPageV1();
         var authInfo = DataHelper.getAuthInfo();
@@ -52,6 +52,28 @@ class MoneyTransferTest {
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
         PersonalAccountPage page = new PersonalAccountPage();
+
         System.out.println(page.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0"));
+    }
+    @Test
+    void moneytransverTest() {
+//        Configuration.holdBrowserOpen = true;
+        open("http://localhost:9999");
+        var loginPage = new LoginPageV1();
+        var authInfo = DataHelper.getAuthInfo();
+        var verificationPage = loginPage.validLogin(authInfo);
+        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
+        verificationPage.validVerify(verificationCode);
+        PersonalAccountPage page = new PersonalAccountPage();
+
+        page.moneyTransfer
+                (
+                        DataHelper.getSecondCardInfo(),
+                        1000,
+                        DataHelper.getFirstCardInfo()
+        );
+        assertEquals( 11000, page.getCardBalance(DataHelper.getFirstCardInfo().getId()));
+        assertEquals( 9000, page.getCardBalance(DataHelper.getSecondCardInfo().getId()));
+
     }
 }

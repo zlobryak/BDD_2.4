@@ -2,8 +2,10 @@ package ru.netology.web.page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import ru.netology.web.data.DataHelper.Card;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -14,20 +16,24 @@ public class PersonalAccountPage {
     private ElementsCollection cards = $$(".list__item div");
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
+    private SelenideElement heading = $("[data-test-id=dashboard]");
 
     public PersonalAccountPage() {
+        heading.shouldBe(visible);
     }
 
-    public DashboardPage cardReplenishment(Card card) {
-        $("[data-test-id=92df3f1c-a033-48e6-8390-206f6b1f56c0] button").click();
-        return new DashboardPage();
+    public void moneyTransfer(Card fromCard, int amount, Card toCard) {
+        $("[data-test-id='" + toCard.getId() + "'] button").click();
+        $("[data-test-id=amount] input").setValue(String.valueOf(amount));
+        $("[data-test-id=from] input").setValue(String.valueOf(fromCard.getNumber()));
+        $("[data-test-id=action-transfer]").click();
     }
 
     public int getCardBalance(String id) {
-        return extractBalance(cards
-                .findBy(Condition.attribute("data-test-id",id))
-                .getText()
-        );
+        return extractBalance
+                (
+                        cards.findBy(Condition.attribute("data-test-id", id)).getText()
+                );
     }
 
     private int extractBalance(String text) {
@@ -36,5 +42,4 @@ public class PersonalAccountPage {
         String value = text.substring(start + balanceStart.length(), finish);
         return Integer.parseInt(value);
     }
-
 }
