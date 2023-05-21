@@ -1,14 +1,14 @@
 package ru.netology.web.test;
 
 import com.codeborne.selenide.Condition;
-//import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.AfterEach;
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.LoginPageV1;
-
+import ru.netology.web.page.LoginPageV2;
+import ru.netology.web.page.LoginPageV3;
 import ru.netology.web.page.PersonalAccountPage;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -16,24 +16,23 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MoneyTransferTest {
-    PersonalAccountPage page = new PersonalAccountPage();
     @BeforeEach
-    public void setup() {
+    public void openNadLogin(){
         open("http://localhost:9999");
         var loginPage = new LoginPageV1();
         var authInfo = DataHelper.getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
+        PersonalAccountPage page = new PersonalAccountPage();
         page.setDefaultBalance();
     }
-    @AfterEach
-    void defaultBalance(){
-        page.setDefaultBalance();
-    }
+
     @Test
-    @DisplayName("Should transfer money from the second card to the first card")
+    @DisplayName("Should transfer money from second card to first")
     void moneyTransferTest() {
+        //        Configuration.holdBrowserOpen = true;
+        PersonalAccountPage page = new PersonalAccountPage();
         page.moneyTransfer
                 (
                         DataHelper.getSecondCardInfo(),
@@ -42,11 +41,15 @@ class MoneyTransferTest {
                 );
         assertEquals(11000, page.getCardBalance(DataHelper.getFirstCardInfo().getId()));
         assertEquals(9000, page.getCardBalance(DataHelper.getSecondCardInfo().getId()));
+
     }
 
     @Test
     @DisplayName("Should not transfer negative amount of money")
-    void negativeAmountMoneyTransferTest() {        page.moneyTransfer
+    void negativeAmountMoneyTransferTest() {
+//        Configuration.holdBrowserOpen = true;
+        PersonalAccountPage page = new PersonalAccountPage();
+        page.moneyTransfer
                 (
                         DataHelper.getSecondCardInfo(),
                         -1000,
@@ -59,7 +62,8 @@ class MoneyTransferTest {
     @Test
     @DisplayName("Should not transfer money to the wrong card")
     void wrongCardMoneyTransferTest() {
-        page.setDefaultBalance();
+//        Configuration.holdBrowserOpen = true;
+        PersonalAccountPage page = new PersonalAccountPage();
         page.moneyTransfer
                 (
                         DataHelper.getWrongCardInfo(),
@@ -70,10 +74,12 @@ class MoneyTransferTest {
                 .shouldBe(Condition.visible);
         $("[data-test-id='action-cancel']").click();
     }
-
     @Test
     @DisplayName("Should not transfer money to the same card")
     void sameCardMoneyTransferTest() {
+//        Configuration.holdBrowserOpen = true;
+        open("http://localhost:9999");;
+        PersonalAccountPage page = new PersonalAccountPage();
         page.moneyTransfer
                 (
                         DataHelper.getFirstCardInfo(),
