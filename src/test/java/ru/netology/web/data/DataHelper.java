@@ -1,6 +1,7 @@
 package ru.netology.web.data;
 
 import lombok.Value;
+import ru.netology.web.page.PersonalAccountPage;
 
 public class DataHelper {
     private DataHelper() {}
@@ -33,12 +34,16 @@ public class DataHelper {
     public static class Card{
         private String number;
         private int balance;
+        private String id;
     }
-    public static Card FirstCardInfo (){
-        return new Card("5559 0000 0000 0001", 10_000 );
+    public static Card FirstCardInfo (String id){
+        PersonalAccountPage page = new PersonalAccountPage();
+        return new Card("5559 0000 0000 0001", page.getCardBalance(id), id);
     }
 
-    public static Card SecondCardInfo (){
-        return new Card("5559 0000 0000 0002", 10_000 );
+    public static Card SecondCardInfo (String id){
+
+        PersonalAccountPage page = new PersonalAccountPage();
+        return new Card("5559 0000 0000 0002", page.getCardBalance(id), id );
     }
 }

@@ -6,7 +6,7 @@ import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.LoginPageV1;
 import ru.netology.web.page.LoginPageV2;
 import ru.netology.web.page.LoginPageV3;
-import ru.netology.web.page.PersonalAccauntPage;
+import ru.netology.web.page.PersonalAccountPage;
 
 import static com.codeborne.selenide.Selenide.open;
 
@@ -51,7 +51,7 @@ class MoneyTransferTest {
         var verificationPage = loginPage.validLogin(authInfo);
         var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
-        PersonalAccauntPage page = new PersonalAccauntPage();
+        PersonalAccountPage page = new PersonalAccountPage();
         System.out.println(page.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0"));
     }
 }
