@@ -128,4 +128,27 @@ class MoneyTransferTest {
         $("[data-test-id='action-cancel']").click();
         page.setDefaultBalance();
     }
+    @Test
+    @DisplayName("Should not transfer money to the same card")
+    void sameCardMoneyTransferTest() {
+        Configuration.holdBrowserOpen = true;
+        open("http://localhost:9999");
+        var loginPage = new LoginPageV1();
+        var authInfo = DataHelper.getAuthInfo();
+        var verificationPage = loginPage.validLogin(authInfo);
+        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
+        verificationPage.validVerify(verificationCode);
+        PersonalAccountPage page = new PersonalAccountPage();
+        page.setDefaultBalance();
+        page.moneyTransfer
+                (
+                        DataHelper.getFirstCardInfo(),
+                        1_000,
+                        DataHelper.getFirstCardInfo()
+                );
+        $("[data-test-id='error-notification']")
+                .shouldBe(Condition.visible);
+        $("[data-test-id='action-cancel']").click();
+        page.setDefaultBalance();
+    }
 }
