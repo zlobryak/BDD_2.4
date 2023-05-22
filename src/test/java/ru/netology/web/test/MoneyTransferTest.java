@@ -109,8 +109,7 @@ class MoneyTransferTest {
                 page.getCardBalance(DataHelper.getSecondCardInfo().getId()));
     }
     @Test
-    @DisplayName("Should transfer all the money " +
-            "from first the card to the second card")
+    @DisplayName("Should not transfer more money")
     void transferAboveTheBalance() {
         PersonalAccountPage page = new PersonalAccountPage();
         page.moneyTransfer
