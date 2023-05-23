@@ -15,7 +15,6 @@ public class DataHelper {
 
 
     public static AuthInfo getAuthInfo() {
-
         return new AuthInfo("vasya", "qwerty123");
     }
 
@@ -35,37 +34,29 @@ public class DataHelper {
     @Value
     public static class Card {
         String number;
-        int balance;
         String id;
     }
 
     public static Card getFirstCardInfo() {
-        PersonalAccountPage page = new PersonalAccountPage();
         return new Card
                 (
                         "5559 0000 0000 0001",
-                        page.getCardBalance("92df3f1c-a033-48e6-8390-206f6b1f56c0"),
                         "92df3f1c-a033-48e6-8390-206f6b1f56c0"
                 );
     }
 
     public static Card getSecondCardInfo() {
-
-        PersonalAccountPage page = new PersonalAccountPage();
         return new Card
                 (
                         "5559 0000 0000 0002",
-                        page.getCardBalance("0f3f5c2a-249e-4c3d-8287-09f7a039391d"),
                         "0f3f5c2a-249e-4c3d-8287-09f7a039391d"
                 );
     }
-    public static Card getWrongCardInfo() {
 
-        PersonalAccountPage page = new PersonalAccountPage();
+    public static Card getWrongCardInfo() {
         return new Card
                 (
                         "5559 0000 0000 0003",
-                        10_000,
                         "WrongID"
                 );
     }
