@@ -1,6 +1,6 @@
 package ru.netology.web.test;
 
-import com.codeborne.selenide.Configuration;
+//import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -128,7 +128,7 @@ class MoneyTransferTest {
     @Test
     @DisplayName("Should not transfer more money")
     void transferAboveTheBalance() {
-        Configuration.holdBrowserOpen = true;
+//        Configuration.holdBrowserOpen = true;
         PersonalAccountPage personalAccountPage = new PersonalAccountPage();
         MoneyTransferPage moneyTransferPage = new MoneyTransferPage();
         int balance = personalAccountPage.getCardBalance(DataHelper.getFirstCardInfo());
