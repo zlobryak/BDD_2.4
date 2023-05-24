@@ -1,7 +1,6 @@
 package ru.netology.web.data;
 
 import lombok.Value;
-import ru.netology.web.page.PersonalAccountPage;
 
 public class DataHelper {
     private DataHelper() {

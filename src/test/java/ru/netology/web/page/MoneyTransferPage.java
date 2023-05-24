@@ -1,19 +1,23 @@
 package ru.netology.web.page;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 import ru.netology.web.data.DataHelper;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class MoneyTransferPage {
+    private SelenideElement amountField = $("[data-test-id=amount] input");
+    private SelenideElement fromField = $("[data-test-id=from] input");
+    private SelenideElement toField = $("[data-test-id=to] input");
     public void moneyTransfer(DataHelper.Card fromCard, int amount) {
-        $("[data-test-id=amount] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME),
+        amountField.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME),
                 Keys.BACK_SPACE);
-        $("[data-test-id=amount] input").setValue(String.valueOf(amount));
-        $("[data-test-id=from] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME),
+        amountField.setValue(String.valueOf(amount));
+        fromField.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME),
                 Keys.BACK_SPACE);
-        $("[data-test-id=from] input").setValue(String.valueOf(fromCard.getNumber()));
+        fromField.setValue(String.valueOf(fromCard.getNumber()));
         $("[data-test-id=action-transfer]").click();
 
     }
