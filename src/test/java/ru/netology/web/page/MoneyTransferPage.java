@@ -7,9 +7,9 @@ import ru.netology.web.data.DataHelper;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MoneyTransferPage {
-    public static void moneyTransfer(DataHelper.Card fromCard, int amount, DataHelper.Card toCard) {
-        $("[data-test-id='" + toCard.getId() + "'] button").click();
-        $("[class='App_appContainer__3jRx1'] h1").shouldHave(Condition.text("Пополнение карты"));
+    public void moneyTransfer(DataHelper.Card fromCard, int amount) {
+//        $("[data-test-id='" + toCard.getId() + "'] button").click();
+//        $("[class='App_appContainer__3jRx1'] h1").shouldHave(Condition.text("Пополнение карты"));
         $("[data-test-id=amount] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME),
                 Keys.BACK_SPACE);
         $("[data-test-id=amount] input").setValue(String.valueOf(amount));
@@ -20,12 +20,12 @@ public class MoneyTransferPage {
 
     }
 
-    public static void errorNotificationPopUp() {
+    public void errorNotificationPopUp() {
         $("[data-test-id='error-notification']")
                 .shouldBe(Condition.visible);
     }
 
-    public static void pushCancelButton() {
+    public void pushCancelButton() {
         $("[data-test-id='action-cancel']").click();
         $("[class='App_appContainer__3jRx1'] h1").shouldHave(Condition.text("Ваши карты"));
     }

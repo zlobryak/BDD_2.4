@@ -23,38 +23,24 @@ public class PersonalAccountPage {
     }
 
 
-    public static int getCardBalance(String id) {
+    public int getCardBalance(DataHelper.Card CardInfo) {
         return extractBalance
                 (
-                        cards.findBy(Condition.attribute("data-test-id", id)).getText()
+                        cards.findBy(Condition.attribute
+                                ("data-test-id", CardInfo.getId())).getText()
                 );
     }
 
-    private static int extractBalance(String text) {
+    private int extractBalance(String text) {
         int start = text.indexOf(balanceStart);
         int finish = text.indexOf(balanceFinish);
         String value = text.substring(start + balanceStart.length(), finish);
         return Integer.parseInt(value);
     }
 
-    public void setDefaultBalance() {
-        // Этот метод реализован для зауска перед каждым тестом,
-        // он приводит значение баллана обоих карт к стандартному
-        int firstBalance = getCardBalance(DataHelper.getFirstCardInfo().getId());
-        int secondBalance = getCardBalance(DataHelper.getSecondCardInfo().getId());
-        if (firstBalance >= secondBalance) {
-            int deltaBalance = 10_000 - secondBalance;
-            MoneyTransferPage.moneyTransfer(
-                    DataHelper.getFirstCardInfo(),
-                    deltaBalance,
-                    DataHelper.getSecondCardInfo());
-        } else {
-            int deltaBalance = 10_000 - firstBalance;
-            MoneyTransferPage.moneyTransfer(
-                    DataHelper.getSecondCardInfo(),
-                    deltaBalance,
-                    DataHelper.getFirstCardInfo());
-        }
-        new PersonalAccountPage();
+
+    public void chooseCard(DataHelper.Card toCard) {
+        $("[data-test-id='" + toCard.getId() + "'] button").click();
+        $("[class='App_appContainer__3jRx1'] h1").shouldHave(Condition.text("Пополнение карты"));
     }
 }
